@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Models\Tag;
 
 class ProductController extends Controller
 {
@@ -26,7 +27,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $tags = Tag::all();
+        return view('products.create', compact('tags'));
     }
 
     /**
@@ -37,8 +39,8 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        Product::create($request->validated());
-
+        $product = Product::create($request->validated());
+        $product->tags()->attach($request->tags);
         return redirect()->route('products.index')
             ->with('success', 'Produto criado com sucesso.');
     }
@@ -62,7 +64,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $tags = Tag::all();
+        return view('products.edit', compact('product','tags'));
     }
 
     /**
@@ -74,7 +77,10 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        if($request->name && $request->name != $product->name)
+            $product->update($request->validated());
+        $product->tags()->detach();
+        $product->tags()->syncWithoutDetaching($request->tags);
         return redirect()->route('products.index')
             ->with('success', 'Produto atualizado com sucesso.');
     }
