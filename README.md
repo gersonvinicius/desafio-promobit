@@ -1,66 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Desafio Promobit - por Gerson Vinicius 
+ 
+## Tecnologias utilizadas: 
+  - Laravel - 8.77
+  - Mysql - 10.3.31-MariaDB
+  - PHP - 7.4
+  - Git
+  - Linux
+  - Composer 2.1.6
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Requisitos
+Para o funcionamento do projeto é necessário ter instalados PHP e suas extensões na versão 7.4, Mysql 5.7+ ou MariaDB 10+, composer para instalação de dependências do Laravel e Git.
 
-## About Laravel
+## Setup
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+#### Clone do projeto
+git clone https://github.com/gersonvinicius/desafio-promobit.git  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Após isso entre na pasta do projeto: cd pasta_projeto  
+Dê o comando: cp .env_example .env  
+Assim será criado um novo arquivo .env onde iremos alterar para as nossas informações, como a seguir.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Banco de dados
+Essas são as informações do banco de dados, bastando alterar para as de seu ambiente.  
 
-## Learning Laravel
+DB_CONNECTION=mysql  
+DB_HOST=127.0.0.1  
+DB_PORT=3306  
+DB_DATABASE=nome_do_banco  
+DB_USERNAME=usuario  
+DB_PASSWORD=senha  
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Email (Opcional)
+Caso queira fazer testes utilizando email para recuperação de senha, basta alterar estes campos, como abaixo.  
+Obs:. o email precisa ser gmail e precisa permitir nas suas configurações para liberar apps desconhecidos e remover qualquer outro tipo de verificação a não ser a senha.  
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+MAIL_MAILER=smtp  
+MAIL_HOST=smtp.gmail.com  
+MAIL_PORT=587  
+MAIL_USERNAME=email@gmail.com  
+MAIL_PASSWORD=senha  
+MAIL_ENCRYPTION=tls  
+MAIL_FROM_ADDRESS=email@gmail.com  
+MAIL_FROM_NAME="${APP_NAME}"  
 
-## Laravel Sponsors
+#### Dependências do projeto
+composer install  
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### Criação de tabelas e popular banco
+Para criar as tabelas no banco de dados: php artisan migrate  
+Caso o banco de dados tenha alguma tabela basta executar: php artisan migrate:fresh  
+Foram feitas factories para o banco ser populado automaticamente, basta executar: php artisan db:seed ou php artisan migrate:fresh --seed  
 
-### Premium Partners
+#### Iniciando a aplicação
+php artisan serve  
+Este comando irá executar o servidor e irá nos devolver um link para acessar a aplicação que geralmente é: http://127.0.0.1:8000/
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+#### Registrando novo usuário para utilização do sistema com autenticação
+Após entrar na url da aplicação, será redirecionado para a página inicial do laravel, logo acima no canto superior direito existem dois botoês que irão redirecionar para as telas de login e registro.  
+Primeiramente acessamos o de registro ou 'register' e criamos um novo usuário, logo após criar já seremos redirecionados para a dashboard do projeto.  
 
-## Contributing
+#### Utilização do sistema de cadastro de produtos e tags
+Basta agora entrarmos nas telas de tags e produtos para verificarmos os produtos ou tags que ja foram pré-cadastrados, podendo também inserir novas, alterar, remover e exibir detalhes.  
+Ao editar ou cadastrar um novo produto, podemos escolher as tags desejadas para associar a aquele produto.  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Observações
+- caso queira selecionar mais de uma tag, basta segurar a tecla CTRL e selecionar as tags na lista.   
+- a aplicação sempre irá salvar as tags que foram enviadas pela requisição ao gravar ou atualizar um produto, então as tags que estão selecionadas serão as que irão ser salvas.  
+- se uma tag que está associada a um ou mais produtos for excluída, ela também não estará mais associada a aquele produto.
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## SQL de extração de relevância
+Este SQL foi executado no phpmyadmin
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```SQL
+SELECT t.name as Nome, COUNT(pt.tag_id) as 'Quantidade de produtos associados' 
+FROM tags t 
+LEFT JOIN product_tag pt ON pt.tag_id = t.id GROUP BY t.name;
